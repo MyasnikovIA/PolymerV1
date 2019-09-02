@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="25" zv="Cache for Windows (x86-64) 2018.1.2 (Build 309U_SU)" ts="2019-09-02 18:53:34">
+<Class name="%ZWebNode.CustumElement.html">
+<Description><![CDATA[
+<link rel="import" href="%25ZWebNode.CustumElement.html.cls">	]]></Description>
+<Super>%CSP.Page</Super>
+<TimeChanged>65258,47286.659721</TimeChanged>
+<TimeCreated>65258,46167.940528</TimeCreated>
+
+<Parameter name="TagName">
+<Default>x-custom</Default>
+</Parameter>
+
+<Method name="ExecFrag">
+<Description>
+Метод разбики исходного текста на Cache` код и HTML текст</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>SrcCode="",Beg="",End=""</FormalSpec>
+<Implementation><![CDATA[     q:SrcCode=""   q:Beg=""    q:End=""    for ExecFragInd=1:1:$l(SrcCode,End){  s tmp=$p(SrcCode,End,ExecFragInd)   s Html=$p(tmp,Beg,1)     s Code=$p(tmp,Beg,2)   w Html   TRY {    if $L(Code)>0 { x " w """", "_Code}    } CATCH ErrorHandle {    zw ErrorHandle  }    }
+]]></Implementation>
+</Method>
+
+<Method name="DrawXdata">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>Name={##This_":template"}</FormalSpec>
+<Language>cache</Language>
+<ReturnType>%Library.Status</ReturnType>
+<Implementation><![CDATA[
+   if $l(Name,":")=1,$e(Name,1,2)'=".."{  s Name=".."_Name  }
+   if $e(Name,1,2)=".." {  s ClassName=##This,XdataName=$e(Name,3,$l(Name))
+   }else{                  s ClassName=$p(Name,":",1),XdataName=$p(Name,":",2)  }
+   s gl="^oddDEF("""_ClassName_""",""x"","""_XdataName_""",21)"  
+   s FragOnPageInd=""  f {  s FragOnPageInd=$o(@gl@(FragOnPageInd))  q:FragOnPageInd=""     d ..ExecFrag(@gl@(FragOnPageInd),"#(",")#")     w $c(13,10)  }
+]]></Implementation>
+</Method>
+
+<XData name="template">
+<Data><![CDATA[
+<dom-module id="#(%TagName)#">
+  <template>
+    <template is="dom-repeat" items="{{users}}" as="userOne" >
+        <div>{{userOne.lastname}}, {{userOne.name}} ({{highlight}})</div>
+    </template>
+  </template>
+</dom-module>
+]]></Data>
+</XData>
+
+<Method name="OnPage">
+<ClassMethod>1</ClassMethod>
+<ReturnType>%Status</ReturnType>
+<Implementation><![CDATA[
+	 s ClassName=##this
+	 s %TagName=""
+  	 if $d(^oddDEF(ClassName,"p","TagName")),$d( ^oddDEF(ClassName,"p","TagName",22)){
+         s %TagName=^oddDEF(ClassName,"p","TagName",22)
+  	 }
+     /// https://polymer-library.polymer-project.org/1.0/docs/devguide/observers
+	 d ..DrawXdata(ClassName_":template")
+	 w !,"<script type='text/javascript'> "
+     w !,"      Polymer( "
+     w !,"    	{ "
+     w !,"		  is: '"_%TagName_"',"
+     w !,"		  properties: {"
+     w !,"		    users: { type: Array ,value: function() { return []; } }"
+     w !,"		    ,highlight: { observer: '_highlightChanged' }"
+     w !,"		  }"
+     w !,"		  ,_highlightChanged: function(newValue, oldValue) { console.log('newValue ',newValue, ' oldValue: ',oldValue) }"
+     w !,"		  ,usersAddedOrRemoved: function(Old,changeRecord) { console.log('usersAddedOrRemoved',changeRecord); }"
+     w !,"		  ,ready: function() {"
+     w !,"		    this.users.push( {name: ""Jack Aubrey"",lastname:""fffffffff""});"
+     w !,"		    this.users.push( {name: ""Jack Aubrey"",lastname:""000000000""});"
+     w !,"		    this.users.push( {name: ""Jack Aubrey"",lastname:""777777777""});"
+     w !,"		    this.users.push( {name: ""Jack Aubrey"",lastname:""666666666""});"
+     w !,"		  }"
+     w !,"		}"
+	 w !,");"	
+    w "</script>"
+	Quit $$$OK
+]]></Implementation>
+</Method>
+</Class>
+</Export>

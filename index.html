@@ -1,0 +1,79 @@
+<html>
+<head>
+	<script src = "bower_components/webcomponentsjs/webcomponents-lite.js"></script>   
+	<link rel = "import" href = "bower_components/polymer/polymer.html">   
+	<link href="bower_components/paper-input/paper-input.html" rel="import">
+    <link rel="import" href="custom-element.html">	
+	<script>"use strict"</script>
+</head>
+<body>
+
+
+<custom-element></custom-element>
+
+
+<my-element3></my-element3>
+
+
+
+<proto-element></proto-element>
+
+
+<picture-frame></picture-frame>
+<br>
+
+
+<input id='txt' value='fffffffffffff'/> <name-tag id='restag'  owner='ffffffsdfasdfasfsad' ></name-tag><button onclick='change()'>Изменить</button>
+<script>
+  var change=function(){
+     var obj=document.getElementById('restag') 
+	 var txt=document.getElementById('txt') 
+	 obj.owner=txt.value;
+  }
+</script>
+
+
+
+<br>
+<has-whitespace></has-whitespace>
+<br>--------<br>
+<employee-search ID='ListEmpl2'></employee-search>
+<br>--------<br>
+
+<br>--------<br><br>--------<br><br>--------<br><br>--------<br>
+<br>--------<br><br>--------<br><br>--------<br>
+<br>----employee-list----<br>
+<input id="fnme"/><input id="Lnme"/><button onclick="AddEmp();">add</button>
+<employee-list ID='ListEmpl'></employee-list>
+<script>
+    //https://polymer-library.polymer-project.org/1.0/docs/devguide/templates
+	AddEmp = function(){
+       var fnme=document.getElementById('fnme') ;
+       var Lnme=document.getElementById('Lnme') ;
+       var ListEmpl=document.getElementById('ListEmpl') ;
+	   var arr=ListEmpl.employees;
+	   ListEmpl.employees=[];
+       arr.push({'first': fnme.value, 'last':  Lnme.value})
+	   ListEmpl.employees=arr;
+	}
+</script>
+
+<br><br><br><br>
+<br>----x-custom----<br>
+<button onclick="AddUser();">add</button>
+<script>
+	AddUser = function(){
+       var CostEl=document.getElementById('CostEl') ;
+	   var arr=CostEl.users;
+       arr.push( {name: "Jack Aubrey",lastname:"666666666"});
+	   CostEl.users=[];
+	   CostEl.users=arr;
+	   CostEl.highlight='222222';
+	}
+</script>
+<x-custom id='CostEl'  highlight='1111111'></x-custom>
+<br>
+
+
+</body>
+</html>

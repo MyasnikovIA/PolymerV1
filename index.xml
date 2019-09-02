@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="25" zv="Cache for Windows (x86-64) 2018.1.2 (Build 309U_SU)" ts="2019-09-02 18:53:23">
+<CSP name="index.csp" application="/csp/user/" default="1"><![CDATA[
+<!--// %ZWebNode.Page  нетрализует встроенный механизм CSP импорта   -->
+<!--CSP:CLASS SUPER="%ZWebNode.Page"-->
+<html>
+<head>
+	<script src = "/csp/sys/bower_components/webcomponentsjs/webcomponents-lite.js"></script>   
+	<link rel = "import" href = "/csp/sys/bower_components/polymer/polymer.html">   
+    <base   href="%25ZWebNode.CustumElement.html.cls"></base>	
+	<script type="text/javascript" >"use strict"</script>
+</head>
+<body>
+<br>----x-custom----<br>
+<button onclick="AddUser();">add</button>
+<script type="text/javascript">
+	AddUser = function(){
+       var CostEl=document.getElementById('CostEl') ;
+	   var arr=CostEl.users;
+	   
+       arr.push( {'name': 'Jack Aubrey','lastname':"srvtxt"});
+	   CostEl.users=[];
+	   CostEl.users=arr;
+	   CostEl.highlight='222222';
+	}
+</script>
+<x-custom id='CostEl'  highlight='1111111'></x-custom>
+<br>
+
+
+</body>
+</html>
+
+
+<script language=Cache method=TestFun arguments='id:%String' returntype="%String" runat=server>
+
+   q $h
+</script> 
+
+
+]]></CSP>
+</Export>

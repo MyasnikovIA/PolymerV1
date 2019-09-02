@@ -1,0 +1,33 @@
+<html>
+<head>
+	<script src = "bower_components/webcomponentsjs/webcomponents-lite.js"></script>
+	<link rel = "import" href = "bower_components/polymer/polymer.html">
+    <server>
+      w "<link rel = 'import' href='%25ZWebNode.CustumElement.html.cls'/>"
+   </server>
+	<script type="text/javascript" >"use strict"</script>
+</head>
+<body>
+<br>----x-custom----<br>
+<button onclick="AddUser();">add</button>
+<script type="text/javascript">
+	AddUser = function(){
+       var CostEl=document.getElementById('CostEl') ;
+	   var arr=CostEl.users;
+
+       arr.push( {'name': 'Jack Aubrey','lastname':"srvtxt"});
+	   CostEl.users=[];
+	   CostEl.users=arr;
+	   CostEl.highlight='222222';
+	}
+</script>
+<x-custom id='CostEl'  highlight='1111111'></x-custom>
+<br>
+
+
+</body>
+</html>
+
+  <script language=Cache method=TestFun arguments='id:%String' returntype="%String" runat=server>
+   q $h
+</script>

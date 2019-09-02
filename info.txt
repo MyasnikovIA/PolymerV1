@@ -1,0 +1,12 @@
+npm install -g bower  
+npm install -g polymer-cli@next  
+
+
+Информация для обработки
+https://www.javatpoint.com/polymer-elements
+https://polymer-library.polymer-project.org/2.0/docs/devguide/templates
+
+
+bower install jquery.layout
+bower install jqueryui
+bower install jquery

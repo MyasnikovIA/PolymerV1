@@ -1,0 +1,266 @@
+<dom-module id='custom-element'>
+  <template>
+    <h1>Heading!</h1>
+    <p>We are elements in custom-element's local DOM.</p>
+  </template>
+
+  <script>
+    class CustomElement extends Polymer.Element {
+      static get is() {
+        return "custom-element";
+      }
+    }
+    customElements.define(CustomElement.is, CustomElement);
+  </script>
+</dom-module>
+
+
+
+<dom-module id="my-element3">
+  <script>
+      MyElement = Polymer({
+
+      is: 'my-element3',
+
+      created: function() {
+	    this.innerHTML = '<h1>-------<h1>';
+        console.log(this.localName + '#' + this.id + ' was created');
+      },
+
+      ready: function() {
+        console.log(this.localName + '#' + this.id + ' has local DOM initialized');
+      },
+
+      attached: function() {
+        console.log(this.localName + '#' + this.id + ' was attached');
+      },
+
+      detached: function() {
+        console.log(this.localName + '#' + this.id + ' was detached');
+      },
+
+      attributeChanged: function(name, type) {
+        console.log(this.localName + '#' + this.id + ' attribute ' + name +
+          ' was changed to ' + this.getAttribute(name));
+      }
+
+    });
+  </script>
+</dom-module>
+
+
+
+
+<dom-module id="proto-element">
+
+  <template>
+    <p>I'm a DOM element. This is my local DOM!</p>
+  </template>
+
+  <script>
+    Polymer({
+      is: "proto-element"
+    });
+  </script>
+
+</dom-module>
+
+
+
+
+
+<dom-module id="picture-frame">
+
+  <template>
+    <!-- scoped CSS for this element -->
+    <style>
+      div {
+        display: inline-block;
+        background-color: #ccc;
+        border-radius: 8px;
+        padding: 4px;
+      }
+    </style>
+    <div>
+      <!-- any children are rendered here -->
+      <content></content>
+    </div>
+  </template>
+
+  <script>
+    Polymer({
+      is: "picture-frame",
+    });
+  </script>
+
+</dom-module>
+
+
+
+
+
+<dom-module id="name-tag">
+
+  <template>
+    <!-- bind to the "owner" property -->
+    This is <b>{{owner}}</b>'s name-tag element.
+  </template>
+
+  <script>
+  Polymer({
+    is: "name-tag",
+    ready: function() {
+      // set this element's owner property
+      this.owner = "Daniel";
+    }
+  });
+  </script>
+
+</dom-module>
+
+
+
+<dom-module id="employee-search">
+
+  <template>
+    <input value="{{searchString::input}}">
+    <template is="dom-repeat" items="{{employees}}" as="employee"
+        filter="{{computeFilter(searchString)}}">
+        <div>{{employee.lastname}}, {{employee.firstname}}</div>
+    </template>
+  </template>
+
+  <script>
+    Polymer({
+      is: "employee-search",
+      computeFilter: function(string) {
+        if (!string) {
+          // set filter to null to disable filtering
+          return null;
+        } else {
+          // return a filter function for the current search string
+          string = string.toLowerCase();
+          return function(employee) {
+            var first = employee.firstname.toLowerCase();
+            var last = employee.lastname.toLowerCase();
+            return (first.indexOf(string) != -1 ||
+                last.indexOf(string) != -1);
+          };
+        }
+      },
+      properties: {
+        employees: {
+          type: Array,
+          value: function() {
+            return [
+              { firstname: "Jack", lastname: "Aubrey" },
+              { firstname: "Anne", lastname: "Elliot" },
+              { firstname: "Stepehen", lastname: "Maturin" },
+              { firstname: "Emma", lastname: "Woodhouse" }
+            ]
+          }
+        }
+      }
+    });
+  </script>
+</dom-module>
+
+
+
+
+
+
+
+
+
+
+
+<dom-module id="employee-list">
+
+
+
+
+
+  <template>
+
+    <div> Employee list: </div>
+    <template is="dom-repeat" id="employeeList" items="{{employees}}">
+        {{index}} 
+		<div>First name: <span>{{item.first}}</span></div>
+        <div>Last name: <span>{{item.last}}</span></div>
+        <button on-click="toggleSelection">Select</button>
+    </template>
+
+    <array-selector id="selector" items="{{employees}}" selected="{{selected}}" multi toggle></array-selector>
+
+    <div> Selected employees: </div>
+    <template is="dom-repeat" items="{{selected}}">
+        <div>First name: <span>{{item.first}}</span></div>
+        <div>Last name: <span>{{item.last}}</span></div>
+    </template>
+
+  </template>
+  
+   <script>
+   
+    Polymer({
+    is: "employee-list",
+    ready: function() {
+      // set this element's owner property
+    }
+	,properties: {
+        employees: {
+          type: Array,
+          value: [
+              {first: 'Bob', last: 'Smith'},
+              {first: 'Sally', last: 'Johnson'}
+           ]
+        }
+    }
+	,toggleSelection: function(e) {
+        var item = this.$.employeeList.itemForElement(e.target);
+        this.$.selector.select(item);
+      }
+  });
+
+  </script>
+</dom-module>
+
+
+<dom-module id="x-custom">
+
+  <template>
+    <template is="dom-repeat" items="{{users}}" as="userOne" >
+        <div>{{userOne.lastname}}, {{userOne.name}} ({{highlight}})</div>
+    </template>
+  </template>
+  
+<script>
+  /// https://polymer-library.polymer-project.org/1.0/docs/devguide/observers
+Polymer({
+  is: 'x-custom',
+  properties: {
+    users: {
+      type: Array
+      ,value: function() {
+        return [];
+      }
+    },
+	highlight: { observer: '_highlightChanged' }
+  }
+  ,_highlightChanged: function(newValue, oldValue) {
+    console.log('newValue ',newValue, ' oldValue: ',oldValue)
+  }
+  ,usersAddedOrRemoved: function(Old,changeRecord) {
+	console.log('usersAddedOrRemoved',changeRecord);
+  },
+  ready: function() {
+    this.users.push( {name: "Jack Aubrey",lastname:"fffffffff"});
+    this.users.push( {name: "Jack Aubrey",lastname:"000000000"});
+    this.users.push( {name: "Jack Aubrey",lastname:"777777777"});
+    this.users.push( {name: "Jack Aubrey",lastname:"666666666"});
+  }
+});
+</script>
+</dom-module>
+
